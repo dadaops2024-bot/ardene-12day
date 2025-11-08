@@ -42,10 +42,13 @@ canvas#glitterCanvas, canvas#snowCanvas {
 header {
   text-align: center;
   padding: 1.5rem 1rem;
-  background: rgba(255,255,255,0.85);
+  background: linear-gradient(145deg, #ffd6f9 0%, #fff2e2 50%, #fbe0f0 100%);
+  background-size: 200% 200%;
+  animation: shimmer 6s ease-in-out infinite;
   border-bottom: 2px solid var(--pink-dark);
   position: relative;
   z-index: 2;
+  backdrop-filter: blur(6px);
 }
 header img { width: 270px; height: auto; }
 h1 { margin:.4rem 0; font-weight:700; font-size:1.8rem; color:#111; }
