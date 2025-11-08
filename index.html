@@ -42,13 +42,10 @@ canvas#glitterCanvas, canvas#snowCanvas {
 header {
   text-align: center;
   padding: 1.5rem 1rem;
-  background: linear-gradient(145deg, #ffd6f9 0%, #fff2e2 50%, #fbe0f0 100%);
-  background-size: 200% 200%;
-  animation: shimmer 6s ease-in-out infinite;
+  background: rgba(255,255,255,0.85);
   border-bottom: 2px solid var(--pink-dark);
   position: relative;
   z-index: 2;
-  backdrop-filter: blur(6px);
 }
 header img { width: 270px; height: auto; }
 h1 { margin:.4rem 0; font-weight:700; font-size:1.8rem; color:#111; }
@@ -214,7 +211,7 @@ function updateCountdown(){
   const today=new Date();
   const xmas=new Date(today.getFullYear(),11,25);
   const diff=Math.ceil((xmas-today)/(1000*60*60*24));
-  counterEl.textContent=`Faltan ${diff} días para Navidad 🎄`;
+  counterEl.textContent=Faltan ${diff} días para Navidad 🎄;
 }
 updateCountdown();
 
@@ -251,7 +248,7 @@ document.getElementById('closeModal').onclick=()=>modalBg.style.display='none';
 modalBg.onclick=e=>{if(e.target===modalBg) modalBg.style.display='none';};
 function openModal(i){
   const r=retos[i-1];
-  mTitle.textContent=`Día ${i} — ${r[0]}`;
+  mTitle.textContent=Día ${i} — ${r[0]};
   mPromo.textContent=r[1];
   mDesc.textContent=r[2];
   modalBg.style.display='flex';
