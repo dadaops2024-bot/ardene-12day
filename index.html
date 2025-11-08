@@ -96,14 +96,17 @@ main {
 /* === Imagen chica al fondo === */
 main::after {
   content: "";
-  position: absolute;
-  bottom: -30px; left: 50%;
+  position: fixed; /* cambia de absolute a fixed para que quede al fondo real */
+  bottom: 0;
+  left: 50%;
   transform: translateX(-50%);
-  width: 800px;
-  height: 700px;
+  width: 700px;
+  height: auto;
+  aspect-ratio: 2/3;
   background: url("./snowgirlpng.png") bottom center / contain no-repeat;
-  opacity: 0.85;
-  z-index: 1;
+  opacity: 0.9;
+  z-index: 0; /* detrás de todo */
+  pointer-events: none;
 }
 
 /* === Botón === */
@@ -117,12 +120,30 @@ main::after {
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s;
-  margin-top: -4rem; /* ajusta altura hacia las manos */
+  margin-top: 1rem;
   position: relative;
   z-index: 2;
+  top: -60px; /* lo sube justo sobre las manos */
 }
 .btn-points:hover { background: var(--gold); color: #111; }
 
+/* Ajustes responsive */
+@media (max-width: 768px) {
+  main::after {
+    width: 400px;
+  }
+  .btn-points {
+    top: -40px; /* ajusta posición en móvil */
+  }
+}
+@media (max-width: 480px) {
+  main::after {
+    width: 320px;
+  }
+  .btn-points {
+    top: -30px;
+  }
+}
 /* === Footer === */
 footer {
   text-align: center;
