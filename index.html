@@ -1,156 +1,198 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ardene – 12 Days of Christmas</title>
-<link rel="icon" href="https://imgur.com/SE5mLaM.png" type="image/png" />
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+<link rel="icon" href="https://imgur.com/SE5mLaM.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --pink-dark:#ff8ca4;
-  --gold:#ffd700;
+:root {
+  --pink-dark: #ff8ca4;
+  --gold: #ffd700;
 }
 
-/* ===== Fondo general ===== */
-body{
-  margin:0;
-  font-family:'Poppins',sans-serif;
-  background: linear-gradient(145deg,#ffd6f9 0%,#fff2e2 50%,#fbe0f0 100%);
-  background-size:200% 200%;
+/* === Fondo animado === */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(145deg, #ffd6f9 0%, #fff2e2 50%, #fbe0f0 100%);
+  background-size: 200% 200%;
   animation: shimmer 6s ease-in-out infinite;
-  overflow-x:hidden;
-  position:relative;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
 }
-@keyframes shimmer{
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
-}
-
-/* Capas de glitter y nieve al fondo */
-canvas#glitterCanvas,canvas#snowCanvas{
-  position:fixed;inset:0;
-  width:100%;height:100%;
-  pointer-events:none;
-  z-index:0;
+@keyframes shimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-/* ===== Header ===== */
-header{
-  text-align:center;
-  padding:1.5rem 1rem 1rem;
-  /* que combine con el fondo y no genere franja blanca */
+/* === Header === */
+header {
+  text-align: center;
+  padding: 1.5rem 1rem 1rem;
   background: linear-gradient(145deg, rgba(255,214,249,.85) 0%, rgba(255,242,226,.85) 50%, rgba(251,224,240,.85) 100%);
-  border-bottom:2px solid var(--pink-dark);
-  position:relative;
-  z-index:2;
+  border-bottom: 2px solid var(--pink-dark);
+  position: relative;
+  z-index: 2;
   backdrop-filter: blur(6px);
 }
-header img{width:270px;height:auto;display:block;margin:0 auto}
-h1{margin:.4rem 0;font-weight:700;font-size:1.8rem;color:#111}
-p.subtitle{margin:0;color:#333;font-size:1rem}
-p.counter{margin-top:.5rem;color:var(--pink-dark);font-weight:600}
+header img { width: 270px; height: auto; display: block; margin: 0 auto; }
+h1 { margin:.4rem 0; font-weight:700; font-size:1.8rem; color:#111; }
+p.subtitle { margin:0; color:#333; font-size:1rem; }
+p.counter { margin-top:.5rem; color:var(--pink-dark); font-weight:600; }
 
-/* Mensaje de bienvenida */
-.welcome{
-  position:fixed;top:35%;left:50%;transform:translate(-50%,-50%);
-  background:#fff;color:#111;padding:25px 40px;border-radius:16px;
-  box-shadow:0 10px 30px rgba(0,0,0,.2);z-index:999;font-weight:600;font-size:1.1rem;
-  opacity:0;animation:fadeInOut 2.8s ease forwards;
+/* === Bienvenida === */
+.welcome {
+  position: fixed; top: 35%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: white; color: #111;
+  padding: 25px 40px; border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  z-index: 999; font-weight: 600; font-size: 1.1rem;
+  opacity: 0; animation: fadeInOut 2.8s ease forwards;
 }
-@keyframes fadeInOut{0%{opacity:0}10%{opacity:1}80%{opacity:1}100%{opacity:0}}
-
-/* ===== Main con imagen de la chica detrás ===== */
-main{position:relative;z-index:1}
-
-/* La imagen va en un pseudo-elemento, solo en la zona inferior.
-   Uso mask para un fundido suave (sin cortes ni “bandas”).
-*/
-main::before{
-  content:"";
-  position:absolute;inset:0;
-  background:
-    url("./girl%20snow.png") bottom center / 600px auto no-repeat;
-  pointer-events:none;
-  z-index:0;
-  /* fundido superior para integrarse con el header */
-  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 35%, rgba(0,0,0,0) 80%);
-          mask-image: linear-gradient(to top, rgba(0,0,0,1) 35%, rgba(0,0,0,0) 80%);
+@keyframes fadeInOut {
+  0%{opacity:0;} 10%{opacity:1;} 80%{opacity:1;} 100%{opacity:0;}
 }
 
-/* ===== Calendario ===== */
-.grid{
-  position:relative;z-index:1;
-  display:grid;grid-template-columns:repeat(4,1fr);
-  gap:1.5rem;
-  padding:2rem;
-  max-width:800px;
-  margin:2rem auto 3rem;
+/* === Calendario === */
+main {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  overflow: hidden;
 }
-.day{
-  background:#fff;border:3px solid var(--pink-dark);
-  border-radius:18px;padding:2rem 0;text-align:center;
-  font-weight:700;font-size:1.5rem;color:#111;
-  box-shadow:0 6px 12px rgba(0,0,0,.08);
-  cursor:pointer;transition:transform .25s, box-shadow .25s;
-}
-.day:hover{transform:translateY(-5px);box-shadow:0 8px 16px rgba(0,0,0,.2)}
 
-.btn-points{
-  display:block;margin:20px auto 40px;background:var(--pink-dark);color:#fff;
-  border:none;padding:12px 24px;font-weight:700;border-radius:12px;cursor:pointer;transition:all .3s;
-  position:relative;z-index:1;
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  padding: 2rem;
+  max-width: 800px;
+  margin: 2rem auto 1rem;
+  position: relative;
+  z-index: 2;
 }
-.btn-points:hover{background:var(--gold);color:#111}
 
-footer{ text-align:center;font-size:.9rem;padding:30px 10px;color:#555;position:relative;z-index:1 }
+.day {
+  background: #fff;
+  border: 3px solid var(--pink-dark);
+  border-radius: 18px;
+  padding: 2rem 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #111;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.day:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.2); }
 
-/* ===== Modal ===== */
-.modal-backdrop{
-  position:fixed;inset:0;background:rgba(0,0,0,.4);
-  display:none;align-items:center;justify-content:center;z-index:10;
+/* === Imagen chica al fondo === */
+main::after {
+  content: "";
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 700px;
+  background: url("./snowgirlpng.png") bottom center / contain no-repeat;
+  opacity: 0.85;
+  z-index: 1;
 }
-.modal{
-  background:#fff;border:3px solid var(--pink-dark);border-radius:16px;
-  padding:20px;max-width:600px;text-align:left;box-shadow:0 20px 40px rgba(0,0,0,.3);
-}
-.modal h2{margin-top:0;color:#111}
-.modal .promo{color:var(--pink-dark);font-weight:600}
-.modal .close{
-  background:var(--pink-dark);border:none;color:#fff;padding:8px 16px;font-weight:600;border-radius:8px;
-  float:right;cursor:pointer;
-}
-.modal .close:hover{background:var(--gold);color:#111}
 
-/* ===== Responsive ===== */
-@media (max-width: 900px){
-  main::before{ background-size: 520px auto; }
+/* === Botón === */
+.btn-points {
+  display: inline-block;
+  background: var(--pink-dark);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-weight: 700;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: -4rem; /* ajusta altura hacia las manos */
+  position: relative;
+  z-index: 2;
 }
-@media (max-width: 768px){
-  .grid{grid-template-columns:repeat(2,1fr)}
-  main::before{
-    background-position: bottom center;
-    background-size: 440px auto;
+.btn-points:hover { background: var(--gold); color: #111; }
+
+/* === Footer === */
+footer {
+  text-align: center;
+  font-size: .9rem;
+  padding: 40px 10px 20px;
+  color: #555;
+  position: relative;
+  z-index: 2;
+}
+
+/* === Modal === */
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+.modal {
+  background: #fff;
+  border: 3px solid var(--pink-dark);
+  border-radius: 16px;
+  padding: 20px;
+  max-width: 600px;
+  text-align: left;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+.modal h2 { margin-top: 0; color: #111; }
+.modal .promo { color: var(--pink-dark); font-weight: 600; }
+.modal .close {
+  background: var(--pink-dark);
+  border: none; color: white;
+  padding: 8px 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  float: right;
+  cursor: pointer;
+}
+.modal .close:hover { background: var(--gold); color: #111; }
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+  main::after {
+    width: 400px;
+    height: 500px;
+  }
+  .btn-points {
+    margin-top: -2rem;
   }
 }
-@media (max-width: 480px){
-  .grid{grid-template-columns:1fr}
-  main::before{ background-size: 360px auto; }
+@media (max-width: 480px) {
+  .grid { grid-template-columns: 1fr; }
+  main::after {
+    width: 320px;
+    height: 400px;
+  }
+  .btn-points {
+    margin-top: -1.5rem;
+  }
 }
 </style>
 </head>
 <body>
 
-<canvas id="glitterCanvas"></canvas>
-<canvas id="snowCanvas"></canvas>
-
 <div class="welcome">🎄 ¡Bienvenida al reto <b>12 Days of Christmas</b>, Ardene Girl!</div>
 
 <header>
-  <!-- Logo local (con espacios codificados). Si renombras el archivo sin espacios, cambia la ruta. -->
-  <img src="./ardene%20logo%20transparent.png" alt="Ardene Logo" />
+  <img src="./ardene%20logo%20transparent.png" alt="Ardene Logo">
   <h1>12 Days of Christmas</h1>
   <p class="subtitle">12 días, 12 retos, 12 oportunidades de brillar ✨</p>
   <p class="counter" id="counter"></p>
@@ -163,7 +205,6 @@ footer{ text-align:center;font-size:.9rem;padding:30px 10px;color:#555;position:
 
 <footer>© Ardene | Hecho con 💖 para nuestros equipos de tienda</footer>
 
-<!-- Modales -->
 <div class="modal-backdrop" id="modalBg">
   <div class="modal">
     <button class="close" id="closeModal">Cerrar</button>
@@ -185,112 +226,67 @@ footer{ text-align:center;font-size:.9rem;padding:30px 10px;color:#555;position:
     </ul>
     <p><b>Premios finales 🎁:</b></p>
     <ul>
-      <li>🏆 Holiday Star: 100$ en Efectivo! + título oficial ✨</li>
-      <li>🥈 Segundo lugar: Gift Card de 50$! 💖</li>
-      <li>🥉 Tercer lugar: Escoge el accesorio de tu prefencia! 🎁</li>
+      <li>🏆 Holiday Star: 100$ en Efectivo + título oficial ✨</li>
+      <li>🥈 Segundo lugar: Gift Card de 50$ 💖</li>
+      <li>🥉 Tercer lugar: Escoge el accesorio de tu preferencia 🎁</li>
     </ul>
   </div>
 </div>
 
 <script>
-/* ===== Contador ===== */
-const counterEl = document.getElementById('counter');
+// === Contador ===
+const counterEl=document.getElementById('counter');
 function updateCountdown(){
-  const today = new Date();
-  const xmas = new Date(today.getFullYear(), 11, 25);
-  const diff = Math.ceil((xmas - today) / (1000*60*60*24));
-  counterEl.textContent = `Faltan ${diff} días para Navidad 🎄`;
+  const today=new Date();
+  const xmas=new Date(today.getFullYear(),11,25);
+  const diff=Math.ceil((xmas-today)/(1000*60*60*24));
+  counterEl.textContent=`Faltan ${diff} días para Navidad 🎄`;
 }
 updateCountdown();
 
-/* ===== Retos ===== */
-const retos = [
-  ["Lingerie Love 💕","30% OFF Lencería","Gana la asociada que venda más unidades de Lingerie hoy (10 puntos!)."],
-  ["Shine Bright ✨","3x2 Jewelry","Gana la asociada que venda más unidades de Jewelry (10 puntos!)."],
-  ["Bag Lovers 🎒","20% OFF Bags & Wallets","La primera en lograr 5 transacciones con Bags/Wallets se gana +2 puntos adicionales"],
-  ["Step Into Style 👟","BOGO 50% Footwear","1 punto por cada ticket con calzado promo."],
-  ["Accessories Galore 🎀","3x2 Accesorios","Supera tu UPT personal vs. semana pasada y gana +2 puntos adicionales."],
-  ["Surprise Bag Day 🎉","Bag gratis desde $40","Logra 3 tickets ≥ $40 y gana + punto adicional!."],
-  ["Basics & Move 🩳","20% OFF Basics & Move","Vende 5 unidades de Basics/Move y gana puntos!."],
-  ["Denim Day 👖","Jeans a $29.99","La asociada que venda más jeans hoy gana +2 puntos extra!."],
-  ["Mix & Match 📸","15% OFF redes","Cliente que muestre que nos sigue gana 15%. Gana 5 nuevos followers para nuestra cuenta gana +2 puuntos extra!"],
-  ["Dress to Impress 👗","30% OFF Vestidos","logra 3 tickets que incluyan vestidos y gana +2 puntos adicionales!."],
-  ["PJ Party 🌙","30% OFF Pijamas","Vende 3 sets de pijamas y gana 5 puntos!."],
-  ["Big Finale 🎄","25% OFF Toda la tienda","Supera tu UPT semanal. Bonus +3 puntos."]
+// === Retos ===
+const retos=[
+["Lingerie Love 💕","30% OFF Lencería","Gana la asociada que venda más unidades de Lingerie hoy (10 puntos!)."],
+["Shine Bright ✨","3x2 Jewelry","Gana la asociada que venda más unidades de Jewelry (10 puntos!)."],
+["Bag Lovers 🎒","20% OFF Bags & Wallets","La primera en lograr 5 transacciones con Bags/Wallets se gana +2 puntos adicionales"],
+["Step Into Style 👟","BOGO 50% Footwear","1 punto por cada ticket con calzado promo."],
+["Accessories Galore 🎀","3x2 Accesorios","Supera tu UPT personal vs. semana pasada y gana +2 puntos adicionales."],
+["Surprise Bag Day 🎉","Bag gratis desde $40","Logra 3 tickets ≥ $40 y gana + punto adicional!."],
+["Basics & Move 🩳","20% OFF Basics & Move","Vende 5 unidades de Basics/Move y gana puntos!."],
+["Denim Day 👖","Jeans a $29.99","La asociada que venda más jeans hoy gana +2 puntos extra!."],
+["Mix & Match 📸","15% OFF redes","Cliente que muestre que nos sigue gana 15%. Gana 5 nuevos followers para nuestra cuenta gana +2 puntos extra!"],
+["Dress to Impress 👗","30% OFF Vestidos","logra 3 tickets que incluyan vestidos y gana +2 puntos adicionales!."],
+["PJ Party 🌙","30% OFF Pijamas","Vende 3 sets de pijamas y gana 5 puntos!."],
+["Big Finale 🎄","25% OFF Toda la tienda","Supera tu UPT semanal. Bonus +3 puntos."]
 ];
 
-/* Construir grid 1..12 */
-const cal = document.getElementById('calendar');
+const cal=document.getElementById('calendar');
 for(let i=1;i<=12;i++){
-  const box = document.createElement('div');
-  box.className = 'day';
-  box.textContent = i;
-  box.onclick = () => openModal(i);
+  const box=document.createElement('div');
+  box.className='day';
+  box.textContent=i;
+  box.onclick=()=>openModal(i);
   cal.appendChild(box);
 }
 
-/* Modal de día */
-const modalBg = document.getElementById('modalBg');
-const mTitle = document.getElementById('mTitle');
-const mPromo = document.getElementById('mPromo');
-const mDesc  = document.getElementById('mDesc');
-
-document.getElementById('closeModal').onclick = () => modalBg.style.display='none';
-modalBg.onclick = e => { if(e.target===modalBg) modalBg.style.display='none'; };
-
+const modalBg=document.getElementById('modalBg');
+const mTitle=document.getElementById('mTitle');
+const mPromo=document.getElementById('mPromo');
+const mDesc=document.getElementById('mDesc');
+document.getElementById('closeModal').onclick=()=>modalBg.style.display='none';
+modalBg.onclick=e=>{if(e.target===modalBg) modalBg.style.display='none';};
 function openModal(i){
-  const r = retos[i-1];
-  mTitle.textContent = `Día ${i} — ${r[0]}`;
-  mPromo.textContent = r[1];
-  mDesc.textContent  = r[2];
-  modalBg.style.display = 'flex';
+  const r=retos[i-1];
+  mTitle.textContent=`Día ${i} — ${r[0]}`;
+  mPromo.textContent=r[1];
+  mDesc.textContent=r[2];
+  modalBg.style.display='flex';
 }
 
-/* Modal reglas */
-const rulesBg = document.getElementById('rulesBg');
-document.getElementById('rulesBtn').onclick = () => rulesBg.style.display='flex';
-document.getElementById('closeRules').onclick = () => rulesBg.style.display='none';
-rulesBg.onclick = e => { if(e.target===rulesBg) rulesBg.style.display='none'; };
-
-/* ===== Glitter ===== */
-const glitterCanvas = document.getElementById('glitterCanvas');
-const gctx = glitterCanvas.getContext('2d');
-function resizeGlitter(){ glitterCanvas.width = innerWidth; glitterCanvas.height = innerHeight; }
-addEventListener('resize',resizeGlitter); resizeGlitter();
-const glitterParticles = Array.from({length:120},()=>({
-  x:Math.random()*innerWidth,y:Math.random()*innerHeight,
-  r:Math.random()*2+0.5,s:Math.random()*0.5+0.3,
-  color:["#fff7e6","#ffe8c2","#ffd6f9","#fff"][Math.floor(Math.random()*4)]
-}));
-function drawGlitter(){
-  gctx.clearRect(0,0,glitterCanvas.width,glitterCanvas.height);
-  glitterParticles.forEach(p=>{
-    gctx.beginPath(); gctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    gctx.fillStyle=p.color; gctx.fill(); p.y+=p.s;
-    if(p.y>innerHeight){p.y=-5;p.x=Math.random()*innerWidth;}
-  });
-  requestAnimationFrame(drawGlitter);
-}
-drawGlitter();
-
-/* ===== Snow ===== */
-const snowCanvas = document.getElementById('snowCanvas');
-const sctx = snowCanvas.getContext('2d');
-function resizeSnow(){ snowCanvas.width = innerWidth; snowCanvas.height = innerHeight; }
-addEventListener('resize',resizeSnow); resizeSnow();
-const snowflakes = Array.from({length:70},()=>({
-  x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*3+1,s:Math.random()*0.8+0.3
-}));
-function drawSnow(){
-  sctx.clearRect(0,0,snowCanvas.width,snowCanvas.height);
-  sctx.fillStyle='rgba(255,255,255,0.8)';
-  snowflakes.forEach(f=>{
-    sctx.beginPath(); sctx.arc(f.x,f.y,f.r,0,Math.PI*2);
-    sctx.fill(); f.y+=f.s; if(f.y>innerHeight){f.y=-5;f.x=Math.random()*innerWidth;}
-  });
-  requestAnimationFrame(drawSnow);
-}
-drawSnow();
+const rulesBg=document.getElementById('rulesBg');
+document.getElementById('rulesBtn').onclick=()=>rulesBg.style.display='flex';
+document.getElementById('closeRules').onclick=()=>rulesBg.style.display='none';
+rulesBg.onclick=e=>{if(e.target===rulesBg) rulesBg.style.display='none';};
 </script>
 </body>
 </html>
