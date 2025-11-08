@@ -30,6 +30,15 @@ body {
   100% { background-position: 0% 50%; }
 }
 
+/* === Lienzos de glitter y nieve === */
+canvas#glitterCanvas, canvas#snowCanvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 1; /* encima de la chica, debajo del contenido */
+}
+
 /* === Header === */
 header {
   text-align: center;
@@ -62,7 +71,7 @@ p.counter { margin-top:.5rem; color:var(--pink-dark); font-weight:600; }
 /* === Calendario === */
 main {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   text-align: center;
   overflow: hidden;
 }
@@ -96,7 +105,7 @@ main {
 /* === Imagen chica al fondo === */
 main::after {
   content: "";
-  position: fixed; /* cambia de absolute a fixed para que quede al fondo real */
+  position: fixed;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
@@ -105,7 +114,7 @@ main::after {
   aspect-ratio: 2/3;
   background: url("./snowgirlpng.png") bottom center / contain no-repeat;
   opacity: 0.9;
-  z-index: 0; /* detrás de todo */
+  z-index: 0;
   pointer-events: none;
 }
 
@@ -123,27 +132,10 @@ main::after {
   margin-top: 1rem;
   position: relative;
   z-index: 2;
-  top: -60px; /* lo sube justo sobre las manos */
+  top: -60px;
 }
 .btn-points:hover { background: var(--gold); color: #111; }
 
-/* Ajustes responsive */
-@media (max-width: 768px) {
-  main::after {
-    width: 400px;
-  }
-  .btn-points {
-    top: -40px; /* ajusta posición en móvil */
-  }
-}
-@media (max-width: 480px) {
-  main::after {
-    width: 320px;
-  }
-  .btn-points {
-    top: -30px;
-  }
-}
 /* === Footer === */
 footer {
   text-align: center;
@@ -188,27 +180,21 @@ footer {
 /* === Responsive === */
 @media (max-width: 768px) {
   .grid { grid-template-columns: repeat(2, 1fr); }
-  main::after {
-    width: 400px;
-    height: 500px;
-  }
-  .btn-points {
-    margin-top: -2rem;
-  }
+  main::after { width: 400px; }
+  .btn-points { top: -40px; }
 }
 @media (max-width: 480px) {
   .grid { grid-template-columns: 1fr; }
-  main::after {
-    width: 320px;
-    height: 400px;
-  }
-  .btn-points {
-    margin-top: -1.5rem;
-  }
+  main::after { width: 320px; }
+  .btn-points { top: -30px; }
 }
 </style>
 </head>
 <body>
+
+<!-- EFECTOS -->
+<canvas id="glitterCanvas"></canvas>
+<canvas id="snowCanvas"></canvas>
 
 <div class="welcome">🎄 ¡Bienvenida al reto <b>12 Days of Christmas</b>, Ardene Girl!</div>
 
@@ -226,6 +212,7 @@ footer {
 
 <footer>© Ardene | Hecho con 💖 para nuestros equipos de tienda</footer>
 
+<!-- Modales -->
 <div class="modal-backdrop" id="modalBg">
   <div class="modal">
     <button class="close" id="closeModal">Cerrar</button>
@@ -308,6 +295,57 @@ const rulesBg=document.getElementById('rulesBg');
 document.getElementById('rulesBtn').onclick=()=>rulesBg.style.display='flex';
 document.getElementById('closeRules').onclick=()=>rulesBg.style.display='none';
 rulesBg.onclick=e=>{if(e.target===rulesBg) rulesBg.style.display='none';};
+
+// === Glitter ===
+const glitterCanvas=document.getElementById('glitterCanvas');
+const gctx=glitterCanvas.getContext('2d');
+function resizeGlitter(){glitterCanvas.width=innerWidth;glitterCanvas.height=innerHeight;}
+window.addEventListener('resize',resizeGlitter);resizeGlitter();
+const glitterParticles=Array.from({length:120},()=>({
+  x:Math.random()*innerWidth,
+  y:Math.random()*innerHeight,
+  r:Math.random()*2+0.5,
+  s:Math.random()*0.5+0.3,
+  color:["#fff7e6","#ffe8c2","#ffd6f9","#fff"][Math.floor(Math.random()*4)]
+}));
+function drawGlitter(){
+  gctx.clearRect(0,0,glitterCanvas.width,glitterCanvas.height);
+  glitterParticles.forEach(p=>{
+    gctx.beginPath();
+    gctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    gctx.fillStyle=p.color;
+    gctx.fill();
+    p.y+=p.s;
+    if(p.y>innerHeight){p.y=-5;p.x=Math.random()*innerWidth;}
+  });
+  requestAnimationFrame(drawGlitter);
+}
+drawGlitter();
+
+// === Snow ===
+const snowCanvas=document.getElementById('snowCanvas');
+const sctx=snowCanvas.getContext('2d');
+function resizeSnow(){snowCanvas.width=innerWidth;snowCanvas.height=innerHeight;}
+window.addEventListener('resize',resizeSnow);resizeSnow();
+const snowflakes=Array.from({length:70},()=>({
+  x:Math.random()*innerWidth,
+  y:Math.random()*innerHeight,
+  r:Math.random()*3+1,
+  s:Math.random()*0.8+0.3
+}));
+function drawSnow(){
+  sctx.clearRect(0,0,snowCanvas.width,snowCanvas.height);
+  sctx.fillStyle='rgba(255,255,255,0.8)';
+  snowflakes.forEach(f=>{
+    sctx.beginPath();
+    sctx.arc(f.x,f.y,f.r,0,Math.PI*2);
+    sctx.fill();
+    f.y+=f.s;
+    if(f.y>innerHeight){f.y=-5;f.x=Math.random()*innerWidth;}
+  });
+  requestAnimationFrame(drawSnow);
+}
+drawSnow();
 </script>
 </body>
 </html>
