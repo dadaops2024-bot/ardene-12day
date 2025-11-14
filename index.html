@@ -112,25 +112,29 @@ p.counter { margin-top: .5rem; }
   width: 100%;
   overflow: hidden;
 
-  /* Imagen completa SIN zoom */
+  /* Imagen completa */
   background-image: url("https://i.imgur.com/CpZbH2k.jpeg");
-  background-size: cover;
+  background-size: cover;     /* <- evita franjas, cubre toda el área */
   background-repeat: no-repeat;
   background-position: center;
 }
 
-/* Capa glassmorphism + glow */
+/* Capa BLUR REAL arriba de la imagen */
 .section-bottom::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(255, 180, 200, 0.18);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: inset 0 0 80px rgba(255,120,150,0.45);
+
+  /* capa semitransparente */
+  background: rgba(255, 180, 200, 0.25);
+
+  /* blur real aplicado encima */
+  filter: blur(18px);
+
   z-index: 0;
 }
 
+/* Asegurar que elementos internos estén encima */
 .section-bottom > * {
   position: relative;
   z-index: 2;
