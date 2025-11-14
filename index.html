@@ -153,8 +153,9 @@ p.counter { margin-top: .5rem; }
 /* ==== MOBILE ==== */
 @media (max-width: 768px) {
   .section-bottom {
-    background-size: contain;
-    background-position: center top;
+    background-image: none !important; /* quita la imagen en mobile */
+    background-color: #fbe0f0; /* color rosado suave para reemplazarla */
+  }
   }
   .grid {
     grid-template-columns: repeat(2, 1fr);
