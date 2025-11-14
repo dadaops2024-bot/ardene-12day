@@ -39,20 +39,61 @@ canvas#glitterCanvas, canvas#snowCanvas {
   z-index: 1; /* encima de la chica, debajo del contenido */
 }
 
-/* === Header === */
+/* === Header con video === */
 header {
-  text-align: center;
-  padding: 1.5rem 1rem 1rem;
-  background: linear-gradient(145deg, rgba(255,214,249,.85) 0%, rgba(255,242,226,.85) 50%, rgba(251,224,240,.85) 100%);
-  border-bottom: 2px solid var(--pink-dark);
   position: relative;
+  text-align: center;
+  padding: 4rem 1rem 2rem;
+  border-bottom: 2px solid var(--pink-dark);
   z-index: 2;
-  backdrop-filter: blur(6px);
+  overflow: hidden;
 }
-header img { width: 270px; height: auto; display: block; margin: 0 auto; }
-h1 { margin:.4rem 0; font-weight:700; font-size:1.8rem; color:#111; }
-p.subtitle { margin:0; color:#333; font-size:1rem; }
-p.counter { margin-top:.5rem; color:var(--pink-dark); font-weight:600; }
+
+/* Contenedor para que el video quede detrás del contenido */
+.video-banner {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+}
+
+/* Video Desktop */
+.video-banner .desktop-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Video Mobile (oculto en desktop) */
+.video-banner .mobile-video {
+  display: none;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Switch automático según tamaño de pantalla */
+@media (max-width: 768px) {
+  .video-banner .desktop-video { display: none; }
+  .video-banner .mobile-video { display: block; }
+}
+
+/* Contenido del header */
+header img {
+  width: 260px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 3;
+}
+header h1, header p {
+  position: relative;
+  z-index: 3;
+  color: white; /* por si el video es oscuro */
+  text-shadow: 0 0 8px rgba(0,0,0,0.4);
+}
 
 /* === Bienvenida === */
 .welcome {
@@ -102,21 +143,6 @@ main {
 }
 .day:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.2); }
 
-/* === Imagen chica al fondo === */
-main::after {
-  content: "";
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 700px;
-  height: auto;
-  aspect-ratio: 2/3;
-  background: url("./snowgirlpng.png") bottom center / contain no-repeat;
-  opacity: 0.9;
-  z-index: 0;
-  pointer-events: none;
-}
 
 /* === Botón === */
 .btn-points {
@@ -199,6 +225,16 @@ footer {
 <div class="welcome">🎄 ¡Bienvenida al reto <b>12 Days of Christmas</b>, Ardene Girl!</div>
 
 <header>
+  <div class="video-banner">
+    <video class="desktop-video" autoplay muted loop playsinline>
+      <source src="./Holidayvideo_Desktop.mp4" type="video/mp4">
+    </video>
+
+    <video class="mobile-video" autoplay muted loop playsinline>
+      <source src="./Holidayvideo_Mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
   <img src="./ardene%20logo%20transparent.png" alt="Ardene Logo">
   <h1>12 Days of Christmas</h1>
   <p class="subtitle">12 días, 12 retos, 12 oportunidades de brillar ✨</p>
