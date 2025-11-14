@@ -112,12 +112,11 @@ p.counter { margin-top: .5rem; }
   width: 100%;
   overflow: hidden;
 
-  /* Imagen completa sin zoom */
+  /* Imagen completa pero mostrando SIEMPRE la parte superior */
   background-image: url("https://i.imgur.com/CpZbH2k.jpeg");
-  background-size: contain;         /* Imagen completa */
+  background-size: cover;            /* ocupa todo */
+  background-position: top center;   /* muestra parte superior */
   background-repeat: no-repeat;
-  background-position: center top;  /* Alineada arriba */
-  background-color: #f8dfe9;        /* Color de fondo para rellenar */
 }
 
 /* Capa BLUR REAL arriba de la imagen */
@@ -168,6 +167,11 @@ p.counter { margin-top: .5rem; }
 
 /* === DÍAS (cajas) === */
 .day {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
   background: rgba(255,255,255,0.78);
   border: 3px solid var(--pink-dark);
   border-radius: 18px;
@@ -195,6 +199,9 @@ p.counter { margin-top: .5rem; }
 
 /* === BOTÓN === */
 .btn-points {
+  display: block;
+  margin: 1.5rem auto;  /* centrado */
+
   background: var(--pink-dark);
   color: white;
   padding: 18px 26px;
@@ -203,8 +210,8 @@ p.counter { margin-top: .5rem; }
   font-weight: 700;
   border: none;
   cursor: pointer;
-  margin: 1.5rem auto;
   transition: .25s;
+  text-align: center;
 }
 .btn-points:hover {
   background: var(--gold);
