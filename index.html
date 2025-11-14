@@ -112,11 +112,12 @@ p.counter { margin-top: .5rem; }
   width: 100%;
   overflow: hidden;
 
-  /* Imagen completa */
+  /* Imagen completa sin zoom */
   background-image: url("https://i.imgur.com/CpZbH2k.jpeg");
-  background-size: cover;     /* <- evita franjas, cubre toda el área */
+  background-size: contain;         /* Imagen completa */
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: center top;  /* Alineada arriba */
+  background-color: #f8dfe9;        /* Color de fondo para rellenar */
 }
 
 /* Capa BLUR REAL arriba de la imagen */
@@ -128,7 +129,7 @@ p.counter { margin-top: .5rem; }
   /* capa semitransparente */
   background: rgba(255, 180, 200, 0.25);
 
-  /* blur real aplicado encima */
+  /* blur fuerte */
   filter: blur(18px);
 
   z-index: 0;
@@ -140,7 +141,7 @@ p.counter { margin-top: .5rem; }
   z-index: 2;
 }
 
-/* === GRID EN FILAS DE 4 === */
+/* === GRID (no cambiar) === */
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -150,13 +151,17 @@ p.counter { margin-top: .5rem; }
   padding: 2rem 1rem;
 }
 
+/* ==== MOBILE ==== */
 @media (max-width: 768px) {
   .section-bottom {
-    background-size: cover;
-    background-position: center;
+    background-size: contain;
+    background-position: center top;
   }
-  .grid { grid-template-columns: repeat(2, 1fr); }
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
+
 @media (max-width: 480px) {
   .grid { grid-template-columns: 1fr; }
 }
