@@ -10,8 +10,7 @@
 <style>
 :root {
   --pink-dark: #ff8ca4;
-  --pink-glow: rgba(255,140,164,0.7);
-  --glass-bg: rgba(255,255,255,0.25);
+  --pink-glow: rgba(255,140,164,0.55);
   --gold: #ffd700;
 }
 
@@ -23,7 +22,6 @@ body {
   background-size: 200% 200%;
   animation: shimmer 6s ease-in-out infinite;
   overflow-x: hidden;
-  position: relative;
   min-height: 100vh;
 }
 @keyframes shimmer {
@@ -35,7 +33,7 @@ body {
 /* === Glitter + Snow canvases === */
 canvas#glitterCanvas, canvas#snowCanvas {
   position: fixed;
-  top: 0; left: 0;
+  inset: 0;
   width: 100%; height: 100%;
   pointer-events: none;
   z-index: 1;
@@ -51,7 +49,6 @@ header {
   z-index: 5;
 }
 
-/* video detrás */
 .video-banner {
   position: absolute;
   inset: 0;
@@ -78,17 +75,13 @@ header img {
   width: 260px;
   display: block;
   margin: 0 auto;
-  position: relative;
   z-index: 3;
 }
-
 header h1, header p {
-  position: relative;
   z-index: 3;
   color: white;
   text-shadow: 0 0 8px rgba(0,0,0,0.4);
 }
-
 p.subtitle { margin: 0; }
 p.counter { margin-top: .5rem; }
 
@@ -111,39 +104,39 @@ p.counter { margin-top: .5rem; }
   0%{opacity:0;} 10%{opacity:1;} 80%{opacity:1;} 100%{opacity:0;}
 }
 
-/* === MAIN === */
-main {
+/* =====================================================
+   SECCIÓN INFERIOR COMPLETA (main + footer)
+   ===================================================== */
+.section-bottom {
   position: relative;
-  z-index: 1;
-  text-align: center;
-  padding-bottom: 4rem;
-  overflow: hidden;
-}
-
-/* Fondo completo NO ZOOM con blur pero sin deformar */
-main::before {
-  content: "";
-  position: absolute;
-  inset: 0;
   width: 100%;
-  height: 100%;
+  overflow: hidden;
+
+  /* Imagen completa SIN zoom */
   background-image: url("https://i.imgur.com/CpZbH2k.jpeg");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: top center;
+}
 
-  filter: blur(10px);
-  opacity: 0.9;
+/* Capa glassmorphism + glow */
+.section-bottom::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 180, 200, 0.18);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: inset 0 0 80px rgba(255,120,150,0.45);
   z-index: 0;
 }
 
-/* contenido encima */
-.grid, .btn-points, footer {
+.section-bottom > * {
   position: relative;
-  z-index: 3;
+  z-index: 2;
 }
 
-/* === GRID – Filas de 4 === */
+/* === GRID EN FILAS DE 4 === */
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -154,40 +147,41 @@ main::before {
 }
 
 @media (max-width: 768px) {
+  .section-bottom {
+    background-size: cover;
+    background-position: center;
+  }
   .grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 480px) {
   .grid { grid-template-columns: 1fr; }
 }
 
-/* === CAJAS GLASSMORPHISM PREMIUM === */
+/* === DÍAS (cajas) === */
 .day {
-  background: var(--glass-bg);
-  border-radius: 20px;
+  background: rgba(255,255,255,0.78);
+  border: 3px solid var(--pink-dark);
+  border-radius: 18px;
   padding: 2rem 0;
-  font-weight: 700;
   font-size: 1.6rem;
+  font-weight: 700;
   cursor: pointer;
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
 
-  border: 1px solid rgba(255,255,255,0.5);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 
-  /* GLASS + GLOW realista */
   box-shadow:
     0 0 20px var(--pink-glow),
-    0 4px 25px rgba(255,255,255,0.4),
-    inset 0 0 10px rgba(255,255,255,0.35);
+    0 6px 16px rgba(0,0,0,0.12);
 
-  transition: 0.25s ease;
+  transition: .25s;
 }
 
 .day:hover {
   transform: translateY(-6px);
   box-shadow:
-    0 0 35px rgba(255,140,164,0.9),
-    0 6px 30px rgba(255,255,255,0.5),
-    inset 0 0 12px rgba(255,255,255,0.4);
+    0 0 30px var(--pink-glow),
+    0 12px 28px rgba(0,0,0,0.18);
 }
 
 /* === BOTÓN === */
@@ -196,58 +190,57 @@ main::before {
   color: white;
   padding: 18px 26px;
   border-radius: 14px;
-  font-weight: 700;
   font-size: 1.1rem;
+  font-weight: 700;
   border: none;
   cursor: pointer;
-  margin-top: 1rem;
+  margin: 1.5rem auto;
   transition: .25s;
-  box-shadow: 0 0 20px var(--pink-glow);
 }
 .btn-points:hover {
   background: var(--gold);
   color: #111;
 }
 
-/* === Footer === */
+/* === FOOTER === */
 footer {
   text-align: center;
   padding: 40px 10px;
   color: #555;
-  z-index: 4;
+  font-size: 0.9rem;
 }
 
-/* === Modal === */
+/* === MODALS === */
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.45);
+  background: rgba(0,0,0,0.4);
   display: none;
   justify-content: center;
   align-items: center;
   z-index: 10;
 }
 .modal {
-  background: rgba(255,255,255,0.35);
-  backdrop-filter: blur(20px);
-  border-radius: 20px;
+  background: #fff;
+  border: 3px solid var(--pink-dark);
+  border-radius: 16px;
   padding: 20px;
   max-width: 600px;
   text-align: left;
-  border: 1px solid rgba(255,255,255,0.4);
-  box-shadow: 0 0 20px rgba(255,140,164,0.4);
 }
 .modal .close {
+  float: right;
   background: var(--pink-dark);
-  color: #fff;
+  color: white;
   padding: 8px 16px;
   border:none;
   border-radius: 8px;
   cursor:pointer;
-  float:right;
 }
-.modal .close:hover { background: var(--gold); color:#111; }
-
+.modal .close:hover {
+  background: var(--gold);
+  color: #111;
+}
 </style>
 </head>
 
@@ -275,12 +268,19 @@ footer {
   <p class="counter" id="counter"></p>
 </header>
 
-<main>
-  <div class="grid" id="calendar"></div>
-  <button class="btn-points" id="rulesBtn">🎯 Cómo ganar puntos</button>
-</main>
+<!-- SECCIÓN INFERIOR COMPLETA -->
+<div class="section-bottom">
 
-<footer>© Ardene | Hecho con 💖 para nuestros equipos de tienda</footer>
+  <main>
+    <div class="grid" id="calendar"></div>
+    <button class="btn-points" id="rulesBtn">🎯 Cómo ganar puntos</button>
+  </main>
+
+  <footer>
+    © Ardene | Hecho con 💖 para nuestros equipos de tienda
+  </footer>
+
+</div>
 
 <!-- Modal día -->
 <div class="modal-backdrop" id="modalBg">
@@ -312,7 +312,8 @@ function updateCountdown(){
   const today=new Date();
   const xmas=new Date(today.getFullYear(),11,25);
   const diff=Math.ceil((xmas-today)/(1000*60*60*24));
-  document.getElementById('counter').textContent=`Faltan ${diff} días para Navidad 🎄`;
+  document.getElementById('counter').textContent=
+    `Faltan ${diff} días para Navidad 🎄`;
 }
 updateCountdown();
 
@@ -332,6 +333,7 @@ const retos=[
 ["Big Finale 🎄","25% OFF Toda la tienda","Supera tu UPT semanal. Bonus +3 puntos."]
 ];
 
+/* === Crear las cajas === */
 const grid=document.getElementById('calendar');
 for(let i=1;i<=12;i++){
   const d=document.createElement('div');
@@ -359,11 +361,12 @@ document.getElementById('rulesBtn').onclick=()=>rulesBg.style.display='flex';
 document.getElementById('closeRules').onclick=()=>rulesBg.style.display='none';
 rulesBg.onclick=e=>{if(e.target===rulesBg) rulesBg.style.display='none';};
 
-/* === Glitter Effect === */
+/* === Glitter === */
 const glitterCanvas=document.getElementById('glitterCanvas');
 const g=glitterCanvas.getContext('2d');
 function resizeGlitter(){glitterCanvas.width=innerWidth;glitterCanvas.height=innerHeight;}
 resizeGlitter();addEventListener('resize',resizeGlitter);
+
 const glitter=Array.from({length:150},()=>({
   x:Math.random()*innerWidth,
   y:Math.random()*innerHeight,
@@ -371,6 +374,7 @@ const glitter=Array.from({length:150},()=>({
   s:Math.random()*0.6+0.4,
   c:["#ffffff","#ffe5f0","#fff8e1"][Math.floor(Math.random()*3)]
 }));
+
 function drawGlitter(){
   g.clearRect(0,0,glitterCanvas.width,glitterCanvas.height);
   glitter.forEach(p=>{
@@ -379,23 +383,28 @@ function drawGlitter(){
     g.fillStyle=p.c;
     g.fill();
     p.y+=p.s;
-    if(p.y>innerHeight){p.y=-5;p.x=Math.random()*innerWidth;}
+    if(p.y>innerHeight){
+      p.y=-5;
+      p.x=Math.random()*innerWidth;
+    }
   });
   requestAnimationFrame(drawGlitter);
 }
 drawGlitter();
 
-/* === Snow Effect === */
+/* === Snow === */
 const snowCanvas=document.getElementById('snowCanvas');
 const s=snowCanvas.getContext('2d');
 function resizeSnow(){snowCanvas.width=innerWidth;snowCanvas.height=innerHeight;}
 resizeSnow();addEventListener('resize',resizeSnow);
+
 const snow=Array.from({length:70},()=>({
   x:Math.random()*innerWidth,
   y:Math.random()*innerHeight,
   r:Math.random()*3+1,
   s:Math.random()*0.8+0.4
 }));
+
 function drawSnow(){
   s.clearRect(0,0,snowCanvas.width,snowCanvas.height);
   s.fillStyle='rgba(255,255,255,0.8)';
@@ -404,7 +413,10 @@ function drawSnow(){
     s.arc(f.x,f.y,f.r,0,Math.PI*2);
     s.fill();
     f.y+=f.s;
-    if(f.y>innerHeight){f.y=-5;f.x=Math.random()*innerWidth;}
+    if(f.y>innerHeight){
+      f.y=-5;
+      f.x=Math.random()*innerWidth;
+    }
   });
   requestAnimationFrame(drawSnow);
 }
