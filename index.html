@@ -10,10 +10,11 @@
 <style>
 :root {
   --pink-dark: #ff8ca4;
+  --pink-glow: rgba(255,140,164,0.55);
   --gold: #ffd700;
 }
 
-/* === Fondo animado === */
+/* === Fondo general animado === */
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
@@ -39,7 +40,7 @@ canvas#glitterCanvas, canvas#snowCanvas {
   z-index: 1;
 }
 
-/* === Header con VIDEO === */
+/* === HEADER con video === */
 header {
   position: relative;
   text-align: center;
@@ -49,16 +50,15 @@ header {
   z-index: 5;
 }
 
-/* video detrás del header */
+/* video detrás */
 .video-banner {
   position: absolute;
-  top: 0; left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   overflow: hidden;
   z-index: -1;
 }
-
 .video-banner video {
   width: 100%;
   height: 100%;
@@ -110,24 +110,55 @@ p.counter { margin-top: .5rem; }
   0%{opacity:0;} 10%{opacity:1;} 80%{opacity:1;} 100%{opacity:0;}
 }
 
-/* === GRID GENERAL === */
+/* === MAIN con fondo borroso === */
 main {
   position: relative;
-  z-index: 4;
+  z-index: 1;
   text-align: center;
+  padding-bottom: 4rem;
+  overflow: hidden;
 }
 
+/* Capa blur de fondo */
+main::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("https://i.imgur.com/CpZbH2k.jpeg") center/cover no-repeat;
+  filter: blur(8px);
+  transform: scale(1.08);
+  opacity: 0.85;
+  z-index: 0;
+}
+
+.grid, .btn-points, footer {
+  position: relative;
+  z-index: 3;
+}
+
+/* === GRID EN FILAS DE 4 === */
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
-  max-width: 800px;
+  max-width: 900px;
   margin: 2rem auto;
   padding: 2rem 1rem;
-  z-index: 4;
 }
 
-/* === CAJAS (DÍAS) === */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* === Cada caja (día) con efecto glow === */
 .day {
   background: #fff;
   border: 4px solid var(--pink-dark);
@@ -135,26 +166,26 @@ main {
   padding: 2rem 0;
   font-weight: 700;
   font-size: 1.6rem;
+  cursor: pointer;
+
+  /* Sombra + Glow */
   box-shadow:
+    0 0 12px var(--pink-glow),
     0 3px 0 #ffb3c3,
     0 6px 12px rgba(0,0,0,0.12);
-  outline: 6px solid white;
-  outline-offset: -10px;
-  cursor: pointer;
-  transition: .25s;
+
+  transition: 0.25s;
 }
 
 .day:hover {
   transform: translateY(-6px);
   box-shadow:
+    0 0 20px var(--pink-glow),
     0 6px 0 #ffb3c3,
     0 12px 24px rgba(0,0,0,0.18);
 }
 
-/* === Ocultar el day 12 original del centro === */
-.day:nth-child(12) { display: none; }
-
-/* === BOTÓN COMO CAJA CENTRAL === */
+/* === BOTÓN === */
 .btn-points {
   background: var(--pink-dark);
   color: white;
@@ -164,69 +195,12 @@ main {
   font-size: 1.1rem;
   border: none;
   cursor: pointer;
-  display: inline-block;
-  z-index: 5;
+  margin-top: 1rem;
   transition: .25s;
 }
-
 .btn-points:hover {
   background: var(--gold);
   color: #111;
-}
-
-/* === ÁRBOL NAVIDEÑO (Desktop) === */
-@media (min-width: 1024px) {
-
-  .grid {
-    grid-template-columns: repeat(5, 1fr);
-    max-width: 760px;
-    margin-top: 3rem;
-  }
-
-  /* Fila 1 */
-  .day:nth-child(1) { grid-column: 3; }
-
-  /* Fila 2 */
-  .day:nth-child(2) { grid-column: 2; }
-  .day:nth-child(3) { grid-column: 4; }
-
-  /* Fila 3 */
-  .day:nth-child(4) { grid-column: 1; }
-  .day:nth-child(5) { grid-column: 3; }
-  .day:nth-child(6) { grid-column: 5; }
-
-  /* Fila 4 */
-  .day:nth-child(7)  { grid-column: 1; }
-  .day:nth-child(8)  { grid-column: 2; }
-  .day:nth-child(9)  { grid-column: 3; }
-  .day:nth-child(10) { grid-column: 4; }
-
-  /* Fila 5 */
-  .day:nth-child(11) {
-    grid-column: 2;
-    margin-top: 1rem;
-  }
-
-  .btn-points {
-    grid-column: 3;
-    grid-row: 5;
-    margin: 1rem auto;
-  }
-
-  /* El verdadero day 12 */
-  .day:nth-child(12) {
-    display: block;
-    grid-column: 4;
-    margin-top: 1rem;
-  }
-}
-
-/* === Mobile === */
-@media (max-width: 768px) {
-  .grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 480px) {
-  .grid { grid-template-columns: 1fr; }
 }
 
 /* === Footer === */
@@ -265,6 +239,7 @@ footer {
   float:right;
 }
 .modal .close:hover { background: var(--gold); color:#111; }
+
 </style>
 </head>
 
@@ -299,7 +274,7 @@ footer {
 
 <footer>© Ardene | Hecho con 💖 para nuestros equipos de tienda</footer>
 
-<!-- Modal info día -->
+<!-- Modal día -->
 <div class="modal-backdrop" id="modalBg">
   <div class="modal">
     <button class="close" id="closeModal">Cerrar</button>
@@ -358,7 +333,7 @@ for(let i=1;i<=12;i++){
   grid.appendChild(d);
 }
 
-/* === Modal === */
+/* === Modal día === */
 const modalBg=document.getElementById('modalBg');
 function openModal(i){
   const r=retos[i-1];
@@ -421,7 +396,7 @@ function drawSnow(){
     s.arc(f.x,f.y,f.r,0,Math.PI*2);
     s.fill();
     f.y+=f.s;
-    if(f.y>innerHeight){f.y=-5;f.x=Math.random()*innerWidth;}
+    if(f.y>innerHeight){f.y=-5;p.x=Math.random()*innerWidth;}
   });
   requestAnimationFrame(drawSnow);
 }
