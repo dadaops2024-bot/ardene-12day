@@ -151,13 +151,11 @@ p.counter { margin-top: .5rem; }
 }
 
 /* ==== MOBILE ==== */
+/* ===== REMOVER IMAGEN EN MOBILE ===== */
 @media (max-width: 768px) {
   .section-bottom {
-    background-size: contain;
-    background-position: center top;
-  }
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
+    background-image: none !important;  /* elimina la imagen */
+    background-color: #fbe0f0 !important; /* color de respaldo */
   }
 }
 
