@@ -30,26 +30,26 @@ body {
   100% { background-position: 0% 50%; }
 }
 
-/* === Lienzos de glitter y nieve === */
+/* === Glitter + Snow canvases === */
 canvas#glitterCanvas, canvas#snowCanvas {
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
   pointer-events: none;
-  z-index: 1; /* encima de la chica, debajo del contenido */
+  z-index: 1;
 }
 
-/* === Header con video === */
+/* === Header con VIDEO === */
 header {
   position: relative;
   text-align: center;
-  padding: 4rem 1rem 2rem;
+  padding: 4rem 1rem 3rem;
   border-bottom: 2px solid var(--pink-dark);
-  z-index: 2;
   overflow: hidden;
+  z-index: 5;
 }
 
-/* Contenedor para que el video quede detrás del contenido */
+/* video detrás del header */
 .video-banner {
   position: absolute;
   top: 0; left: 0;
@@ -59,126 +59,192 @@ header {
   z-index: -1;
 }
 
-/* Video Desktop */
-.video-banner .desktop-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* Video Mobile (oculto en desktop) */
-.video-banner .mobile-video {
-  display: none;
+.video-banner video {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* Switch automático según tamaño de pantalla */
+.desktop-video { display: block; }
+.mobile-video { display: none; }
+
 @media (max-width: 768px) {
-  .video-banner .desktop-video { display: none; }
-  .video-banner .mobile-video { display: block; }
+  .desktop-video { display: none; }
+  .mobile-video { display: block; }
 }
 
-/* Contenido del header */
 header img {
   width: 260px;
+  display: block;
   margin: 0 auto;
   position: relative;
   z-index: 3;
 }
+
 header h1, header p {
   position: relative;
   z-index: 3;
-  color: white; /* por si el video es oscuro */
+  color: white;
   text-shadow: 0 0 8px rgba(0,0,0,0.4);
 }
 
-/* === Bienvenida === */
+p.subtitle { margin: 0; }
+p.counter { margin-top: .5rem; }
+
+/* === Welcome popup === */
 .welcome {
-  position: fixed; top: 35%; left: 50%;
+  position: fixed;
+  top: 35%; left: 50%;
   transform: translate(-50%, -50%);
-  background: white; color: #111;
-  padding: 25px 40px; border-radius: 16px;
+  background: white;
+  padding: 25px 40px;
+  border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  z-index: 999; font-weight: 600; font-size: 1.1rem;
-  opacity: 0; animation: fadeInOut 2.8s ease forwards;
+  z-index: 999;
+  font-size: 1.1rem;
+  font-weight: 600;
+  opacity: 0;
+  animation: fadeInOut 2.8s ease forwards;
 }
 @keyframes fadeInOut {
   0%{opacity:0;} 10%{opacity:1;} 80%{opacity:1;} 100%{opacity:0;}
 }
 
-/* === Calendario === */
+/* === GRID GENERAL === */
 main {
   position: relative;
-  z-index: 2;
+  z-index: 4;
   text-align: center;
-  overflow: hidden;
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
-  padding: 2rem;
   max-width: 800px;
-  margin: 2rem auto 1rem;
-  position: relative;
-  z-index: 2;
+  margin: 2rem auto;
+  padding: 2rem 1rem;
+  z-index: 4;
 }
 
+/* === CAJAS (DÍAS) === */
 .day {
   background: #fff;
-  border: 3px solid var(--pink-dark);
+  border: 4px solid var(--pink-dark);
   border-radius: 18px;
   padding: 2rem 0;
-  text-align: center;
   font-weight: 700;
-  font-size: 1.5rem;
-  color: #111;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+  font-size: 1.6rem;
+  box-shadow:
+    0 3px 0 #ffb3c3,
+    0 6px 12px rgba(0,0,0,0.12);
+  outline: 6px solid white;
+  outline-offset: -10px;
   cursor: pointer;
-  transition: all 0.25s;
+  transition: .25s;
 }
-.day:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.2); }
 
+.day:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 6px 0 #ffb3c3,
+    0 12px 24px rgba(0,0,0,0.18);
+}
 
-/* === Botón === */
+/* === Ocultar el day 12 original del centro === */
+.day:nth-child(12) { display: none; }
+
+/* === BOTÓN COMO CAJA CENTRAL === */
 .btn-points {
-  display: inline-block;
   background: var(--pink-dark);
   color: white;
-  border: none;
-  padding: 12px 24px;
+  padding: 18px 26px;
+  border-radius: 14px;
   font-weight: 700;
-  border-radius: 12px;
+  font-size: 1.1rem;
+  border: none;
   cursor: pointer;
-  transition: all 0.3s;
-  margin-top: 1rem;
-  position: relative;
-  z-index: 2;
-  top: -60px;
+  display: inline-block;
+  z-index: 5;
+  transition: .25s;
 }
-.btn-points:hover { background: var(--gold); color: #111; }
+
+.btn-points:hover {
+  background: var(--gold);
+  color: #111;
+}
+
+/* === ÁRBOL NAVIDEÑO (Desktop) === */
+@media (min-width: 1024px) {
+
+  .grid {
+    grid-template-columns: repeat(5, 1fr);
+    max-width: 760px;
+    margin-top: 3rem;
+  }
+
+  /* Fila 1 */
+  .day:nth-child(1) { grid-column: 3; }
+
+  /* Fila 2 */
+  .day:nth-child(2) { grid-column: 2; }
+  .day:nth-child(3) { grid-column: 4; }
+
+  /* Fila 3 */
+  .day:nth-child(4) { grid-column: 1; }
+  .day:nth-child(5) { grid-column: 3; }
+  .day:nth-child(6) { grid-column: 5; }
+
+  /* Fila 4 */
+  .day:nth-child(7)  { grid-column: 1; }
+  .day:nth-child(8)  { grid-column: 2; }
+  .day:nth-child(9)  { grid-column: 3; }
+  .day:nth-child(10) { grid-column: 4; }
+
+  /* Fila 5 */
+  .day:nth-child(11) {
+    grid-column: 2;
+    margin-top: 1rem;
+  }
+
+  .btn-points {
+    grid-column: 3;
+    grid-row: 5;
+    margin: 1rem auto;
+  }
+
+  /* El verdadero day 12 */
+  .day:nth-child(12) {
+    display: block;
+    grid-column: 4;
+    margin-top: 1rem;
+  }
+}
+
+/* === Mobile === */
+@media (max-width: 768px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .grid { grid-template-columns: 1fr; }
+}
 
 /* === Footer === */
 footer {
   text-align: center;
-  font-size: .9rem;
-  padding: 40px 10px 20px;
+  padding: 40px 10px;
   color: #555;
-  position: relative;
-  z-index: 2;
+  z-index: 4;
 }
 
 /* === Modal === */
 .modal-backdrop {
-  position: fixed; inset: 0;
+  position: fixed;
+  inset: 0;
   background: rgba(0,0,0,0.4);
   display: none;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   z-index: 10;
 }
 .modal {
@@ -188,37 +254,23 @@ footer {
   padding: 20px;
   max-width: 600px;
   text-align: left;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
 }
-.modal h2 { margin-top: 0; color: #111; }
-.modal .promo { color: var(--pink-dark); font-weight: 600; }
 .modal .close {
   background: var(--pink-dark);
-  border: none; color: white;
+  color: #fff;
   padding: 8px 16px;
-  font-weight: 600;
+  border:none;
   border-radius: 8px;
-  float: right;
-  cursor: pointer;
+  cursor:pointer;
+  float:right;
 }
-.modal .close:hover { background: var(--gold); color: #111; }
-
-/* === Responsive === */
-@media (max-width: 768px) {
-  .grid { grid-template-columns: repeat(2, 1fr); }
-  main::after { width: 400px; }
-  .btn-points { top: -40px; }
-}
-@media (max-width: 480px) {
-  .grid { grid-template-columns: 1fr; }
-  main::after { width: 320px; }
-  .btn-points { top: -30px; }
-}
+.modal .close:hover { background: var(--gold); color:#111; }
 </style>
 </head>
+
 <body>
 
-<!-- EFECTOS -->
+<!-- SNOW & GLITTER -->
 <canvas id="glitterCanvas"></canvas>
 <canvas id="snowCanvas"></canvas>
 
@@ -226,11 +278,10 @@ footer {
 
 <header>
   <div class="video-banner">
-    <video class="desktop-video" autoplay muted loop playsinline>
+    <video class="desktop-video" autoplay muted loop playsinline preload="auto">
       <source src="./Holidayvideo_Desktop.mp4" type="video/mp4">
     </video>
-
-    <video class="mobile-video" autoplay muted loop playsinline>
+    <video class="mobile-video" autoplay muted loop playsinline preload="auto">
       <source src="./Holidayvideo_Mobile.mp4" type="video/mp4">
     </video>
   </div>
@@ -248,7 +299,7 @@ footer {
 
 <footer>© Ardene | Hecho con 💖 para nuestros equipos de tienda</footer>
 
-<!-- Modales -->
+<!-- Modal info día -->
 <div class="modal-backdrop" id="modalBg">
   <div class="modal">
     <button class="close" id="closeModal">Cerrar</button>
@@ -258,6 +309,7 @@ footer {
   </div>
 </div>
 
+<!-- Modal reglas -->
 <div class="modal-backdrop" id="rulesBg">
   <div class="modal">
     <button class="close" id="closeRules">Cerrar</button>
@@ -268,33 +320,26 @@ footer {
       <li>+3 puntos extra por la mayor UPT en el Día 12 🎄</li>
       <li>+5 puntos si completas los 12 días 💪</li>
     </ul>
-    <p><b>Premios finales 🎁:</b></p>
-    <ul>
-      <li>🏆 Holiday Star: 100$ en Efectivo + título oficial ✨</li>
-      <li>🥈 Segundo lugar: Gift Card de 50$ 💖</li>
-      <li>🥉 Tercer lugar: Escoge el accesorio de tu preferencia 🎁</li>
-    </ul>
   </div>
 </div>
 
 <script>
-// === Contador ===
-const counterEl=document.getElementById('counter');
+/* === Contador === */
 function updateCountdown(){
   const today=new Date();
   const xmas=new Date(today.getFullYear(),11,25);
   const diff=Math.ceil((xmas-today)/(1000*60*60*24));
-  counterEl.textContent=`Faltan ${diff} días para Navidad 🎄`;
+  document.getElementById('counter').textContent=`Faltan ${diff} días para Navidad 🎄`;
 }
 updateCountdown();
 
-// === Retos ===
+/* === Retos === */
 const retos=[
-["Lingerie Love 💕","30% OFF Lencería","Gana la asociada que venda más unidades de Lingerie hoy (10 puntos!)."],
-["Shine Bright ✨","3x2 Jewelry","Gana la asociada que venda más unidades de Jewelry (10 puntos!)."],
+["Lingerie Love 💕","30% OFF Lencería","Gana la asociada que venda más unidades de Lencería hoy (10 puntos!)."],
+["Accessories Galore ✨","3x2 en Accesorios y Joyería","Gana la asociada que venda más unidades de Accesorios y Joyería (10 puntos!)."],
 ["Bag Lovers 🎒","20% OFF Bags & Wallets","La primera en lograr 5 transacciones con Bags/Wallets se gana +2 puntos adicionales"],
 ["Step Into Style 👟","BOGO 50% Footwear","1 punto por cada ticket con calzado promo."],
-["Accessories Galore 🎀","3x2 Accesorios","Supera tu UPT personal vs. semana pasada y gana +2 puntos adicionales."],
+["Ticket Hunting","Descuentos sorpresas escondidos en la tienda","Supera tu UPT personal vs. semana pasada y gana +2 puntos adicionales."],
 ["Surprise Bag Day 🎉","Bag gratis desde $40","Logra 3 tickets ≥ $40 y gana + punto adicional!."],
 ["Basics & Move 🩳","20% OFF Basics & Move","Vende 5 unidades de Basics/Move y gana puntos!."],
 ["Denim Day 👖","Jeans a $29.99","La asociada que venda más jeans hoy gana +2 puntos extra!."],
@@ -304,53 +349,52 @@ const retos=[
 ["Big Finale 🎄","25% OFF Toda la tienda","Supera tu UPT semanal. Bonus +3 puntos."]
 ];
 
-const cal=document.getElementById('calendar');
+const grid=document.getElementById('calendar');
 for(let i=1;i<=12;i++){
-  const box=document.createElement('div');
-  box.className='day';
-  box.textContent=i;
-  box.onclick=()=>openModal(i);
-  cal.appendChild(box);
+  const d=document.createElement('div');
+  d.className='day';
+  d.textContent=i;
+  d.onclick=()=>openModal(i);
+  grid.appendChild(d);
 }
 
+/* === Modal === */
 const modalBg=document.getElementById('modalBg');
-const mTitle=document.getElementById('mTitle');
-const mPromo=document.getElementById('mPromo');
-const mDesc=document.getElementById('mDesc');
-document.getElementById('closeModal').onclick=()=>modalBg.style.display='none';
-modalBg.onclick=e=>{if(e.target===modalBg) modalBg.style.display='none';};
 function openModal(i){
   const r=retos[i-1];
-  mTitle.textContent=`Día ${i} — ${r[0]}`;
-  mPromo.textContent=r[1];
-  mDesc.textContent=r[2];
+  document.getElementById('mTitle').textContent=`Día ${i} — ${r[0]}`;
+  document.getElementById('mPromo').textContent=r[1];
+  document.getElementById('mDesc').textContent=r[2];
   modalBg.style.display='flex';
 }
+document.getElementById('closeModal').onclick=()=>modalBg.style.display='none';
+modalBg.onclick=e=>{if(e.target===modalBg) modalBg.style.display='none';};
 
+/* === Modal reglas === */
 const rulesBg=document.getElementById('rulesBg');
 document.getElementById('rulesBtn').onclick=()=>rulesBg.style.display='flex';
 document.getElementById('closeRules').onclick=()=>rulesBg.style.display='none';
 rulesBg.onclick=e=>{if(e.target===rulesBg) rulesBg.style.display='none';};
 
-// === Glitter ===
+/* === Glitter Effect === */
 const glitterCanvas=document.getElementById('glitterCanvas');
-const gctx=glitterCanvas.getContext('2d');
+const g=glitterCanvas.getContext('2d');
 function resizeGlitter(){glitterCanvas.width=innerWidth;glitterCanvas.height=innerHeight;}
-window.addEventListener('resize',resizeGlitter);resizeGlitter();
-const glitterParticles=Array.from({length:120},()=>({
+resizeGlitter();addEventListener('resize',resizeGlitter);
+const glitter=Array.from({length:150},()=>({
   x:Math.random()*innerWidth,
   y:Math.random()*innerHeight,
   r:Math.random()*2+0.5,
-  s:Math.random()*0.5+0.3,
-  color:["#fff7e6","#ffe8c2","#ffd6f9","#fff"][Math.floor(Math.random()*4)]
+  s:Math.random()*0.6+0.4,
+  c:["#ffffff","#ffe5f0","#fff8e1"][Math.floor(Math.random()*3)]
 }));
 function drawGlitter(){
-  gctx.clearRect(0,0,glitterCanvas.width,glitterCanvas.height);
-  glitterParticles.forEach(p=>{
-    gctx.beginPath();
-    gctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    gctx.fillStyle=p.color;
-    gctx.fill();
+  g.clearRect(0,0,glitterCanvas.width,glitterCanvas.height);
+  glitter.forEach(p=>{
+    g.beginPath();
+    g.arc(p.x,p.y,p.r,0,Math.PI*2);
+    g.fillStyle=p.c;
+    g.fill();
     p.y+=p.s;
     if(p.y>innerHeight){p.y=-5;p.x=Math.random()*innerWidth;}
   });
@@ -358,24 +402,24 @@ function drawGlitter(){
 }
 drawGlitter();
 
-// === Snow ===
+/* === Snow Effect === */
 const snowCanvas=document.getElementById('snowCanvas');
-const sctx=snowCanvas.getContext('2d');
+const s=snowCanvas.getContext('2d');
 function resizeSnow(){snowCanvas.width=innerWidth;snowCanvas.height=innerHeight;}
-window.addEventListener('resize',resizeSnow);resizeSnow();
-const snowflakes=Array.from({length:70},()=>({
+resizeSnow();addEventListener('resize',resizeSnow);
+const snow=Array.from({length:70},()=>({
   x:Math.random()*innerWidth,
   y:Math.random()*innerHeight,
   r:Math.random()*3+1,
-  s:Math.random()*0.8+0.3
+  s:Math.random()*0.8+0.4
 }));
 function drawSnow(){
-  sctx.clearRect(0,0,snowCanvas.width,snowCanvas.height);
-  sctx.fillStyle='rgba(255,255,255,0.8)';
-  snowflakes.forEach(f=>{
-    sctx.beginPath();
-    sctx.arc(f.x,f.y,f.r,0,Math.PI*2);
-    sctx.fill();
+  s.clearRect(0,0,snowCanvas.width,snowCanvas.height);
+  s.fillStyle='rgba(255,255,255,0.8)';
+  snow.forEach(f=>{
+    s.beginPath();
+    s.arc(f.x,f.y,f.r,0,Math.PI*2);
+    s.fill();
     f.y+=f.s;
     if(f.y>innerHeight){f.y=-5;f.x=Math.random()*innerWidth;}
   });
@@ -383,5 +427,6 @@ function drawSnow(){
 }
 drawSnow();
 </script>
+
 </body>
 </html>
