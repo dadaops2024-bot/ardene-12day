@@ -10,7 +10,8 @@
 <style>
 :root {
   --pink-dark: #ff8ca4;
-  --pink-glow: rgba(255,140,164,0.55);
+  --pink-glow: rgba(255,140,164,0.7);
+  --glass-bg: rgba(255,255,255,0.25);
   --gold: #ffd700;
 }
 
@@ -110,7 +111,7 @@ p.counter { margin-top: .5rem; }
   0%{opacity:0;} 10%{opacity:1;} 80%{opacity:1;} 100%{opacity:0;}
 }
 
-/* === MAIN con fondo borroso === */
+/* === MAIN === */
 main {
   position: relative;
   z-index: 1;
@@ -119,35 +120,30 @@ main {
   overflow: hidden;
 }
 
-/* Capa blur de fondo */
+/* Fondo completo NO ZOOM con blur pero sin deformar */
 main::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
-
-  /* Mostrar la imagen completa */
   background-image: url("https://i.imgur.com/CpZbH2k.jpeg");
-  background-size: contain;     /* No zoom */
-  background-repeat: no-repeat; /* No repetir */
+  background-size: contain;
+  background-repeat: no-repeat;
   background-position: top center;
 
-  /* Blur encima (no escala la imagen) */
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-
+  filter: blur(10px);
   opacity: 0.9;
   z-index: 0;
 }
 
+/* contenido encima */
 .grid, .btn-points, footer {
   position: relative;
   z-index: 3;
 }
 
-/* === GRID EN FILAS DE 4 === */
+/* === GRID – Filas de 4 === */
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -158,42 +154,40 @@ main::before {
 }
 
 @media (max-width: 768px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .grid { grid-template-columns: repeat(2, 1fr); }
 }
-
 @media (max-width: 480px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
+  .grid { grid-template-columns: 1fr; }
 }
 
-/* === Cada caja (día) con efecto glow === */
+/* === CAJAS GLASSMORPHISM PREMIUM === */
 .day {
-  background: #fff;
-  border: 4px solid var(--pink-dark);
-  border-radius: 18px;
+  background: var(--glass-bg);
+  border-radius: 20px;
   padding: 2rem 0;
   font-weight: 700;
   font-size: 1.6rem;
   cursor: pointer;
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
 
-  /* Sombra + Glow */
+  border: 1px solid rgba(255,255,255,0.5);
+
+  /* GLASS + GLOW realista */
   box-shadow:
-    0 0 12px var(--pink-glow),
-    0 3px 0 #ffb3c3,
-    0 6px 12px rgba(0,0,0,0.12);
+    0 0 20px var(--pink-glow),
+    0 4px 25px rgba(255,255,255,0.4),
+    inset 0 0 10px rgba(255,255,255,0.35);
 
-  transition: 0.25s;
+  transition: 0.25s ease;
 }
 
 .day:hover {
   transform: translateY(-6px);
   box-shadow:
-    0 0 20px var(--pink-glow),
-    0 6px 0 #ffb3c3,
-    0 12px 24px rgba(0,0,0,0.18);
+    0 0 35px rgba(255,140,164,0.9),
+    0 6px 30px rgba(255,255,255,0.5),
+    inset 0 0 12px rgba(255,255,255,0.4);
 }
 
 /* === BOTÓN === */
@@ -208,6 +202,7 @@ main::before {
   cursor: pointer;
   margin-top: 1rem;
   transition: .25s;
+  box-shadow: 0 0 20px var(--pink-glow);
 }
 .btn-points:hover {
   background: var(--gold);
@@ -226,19 +221,21 @@ footer {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0,0,0,0.45);
   display: none;
   justify-content: center;
   align-items: center;
   z-index: 10;
 }
 .modal {
-  background: #fff;
-  border: 3px solid var(--pink-dark);
-  border-radius: 16px;
+  background: rgba(255,255,255,0.35);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
   padding: 20px;
   max-width: 600px;
   text-align: left;
+  border: 1px solid rgba(255,255,255,0.4);
+  box-shadow: 0 0 20px rgba(255,140,164,0.4);
 }
 .modal .close {
   background: var(--pink-dark);
@@ -407,7 +404,7 @@ function drawSnow(){
     s.arc(f.x,f.y,f.r,0,Math.PI*2);
     s.fill();
     f.y+=f.s;
-    if(f.y>innerHeight){f.y=-5;p.x=Math.random()*innerWidth;}
+    if(f.y>innerHeight){f.y=-5;f.x=Math.random()*innerWidth;}
   });
   requestAnimationFrame(drawSnow);
 }
