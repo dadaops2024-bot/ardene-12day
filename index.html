@@ -14,7 +14,7 @@
   --gold: #ffd700;
 }
 
-/* === Fondo general animado === */
+/* ——————————— FONDO ——————————— */
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
@@ -30,16 +30,14 @@ body {
   100% { background-position: 0% 50%; }
 }
 
-/* === Glitter + Snow canvases === */
 canvas#glitterCanvas, canvas#snowCanvas {
-  position: fixed;
-  inset: 0;
+  position: fixed; inset: 0;
   width: 100%; height: 100%;
   pointer-events: none;
   z-index: 1;
 }
 
-/* === HEADER con video === */
+/* ——————————— HEADER ——————————— */
 header {
   position: relative;
   text-align: center;
@@ -48,221 +46,156 @@ header {
   overflow: hidden;
   z-index: 5;
 }
-
 .video-banner {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: -1;
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  overflow: hidden; z-index: -1;
 }
-.video-banner video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
+.video-banner video { width: 100%; height: 100%; object-fit: cover; }
 .desktop-video { display: block; }
 .mobile-video { display: none; }
 
-@media (max-width: 768px) {
-  .desktop-video { display: none; }
-  .mobile-video { display: block; }
+@media (max-width:768px){
+  .desktop-video { display:none; }
+  .mobile-video { display:block; }
 }
 
-header img {
-  width: 260px;
-  display: block;
-  margin: 0 auto;
-  z-index: 3;
-}
-header h1, header p {
-  z-index: 3;
-  color: white;
-  text-shadow: 0 0 8px rgba(0,0,0,0.4);
-}
-p.subtitle { margin: 0; }
-p.counter { margin-top: .5rem; }
+header img { width:260px; display:block; margin:0 auto; }
+header h1, header p { color:white; text-shadow:0 0 8px rgba(0,0,0,0.4); }
 
-/* === Welcome popup === */
+/* ——————————— POPUP BIENVENIDA ——————————— */
 .welcome {
   position: fixed;
-  top: 35%; left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  padding: 25px 40px;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  z-index: 999;
-  font-size: 1.1rem;
-  font-weight: 600;
-  opacity: 0;
+  top: 35%; left: 50%; transform: translate(-50%, -50%);
+  background:white; padding:25px 40px;
+  border-radius:16px;
+  font-weight:600;
+  opacity:0;
   animation: fadeInOut 2.8s ease forwards;
+  z-index:999;
 }
 @keyframes fadeInOut {
   0%{opacity:0;} 10%{opacity:1;} 80%{opacity:1;} 100%{opacity:0;}
 }
 
-/* =====================================================
-   SECCIÓN INFERIOR COMPLETA (main + footer)
-   ===================================================== */
+/* ——————————— SECCIÓN ABAJO ——————————— */
 .section-bottom {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-
-  /* Imagen completa pero mostrando SIEMPRE la parte superior */
-  background-image: url("https://i.imgur.com/CpZbH2k.jpeg");
-  background-size: cover;            /* ocupa todo */
-  background-position: top center;   /* muestra parte superior */
-  background-repeat: no-repeat;
+  position:relative; width:100%;
+  background-image:url("https://i.imgur.com/CpZbH2k.jpeg");
+  background-size:cover; background-position:top center;
 }
-
-/* Capa BLUR REAL arriba de la imagen */
 .section-bottom::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-
-  /* capa semitransparente */
-  background: rgba(255, 180, 200, 0.25);
-
-  /* blur fuerte */
-  filter: blur(18px);
-
-  z-index: 0;
+  content:""; position:absolute; inset:0;
+  background:rgba(255,180,200,0.25);
+  filter:blur(18px); z-index:0;
 }
+.section-bottom > * { position:relative; z-index:2; }
 
-/* Asegurar que elementos internos estén encima */
-.section-bottom > * {
-  position: relative;
-  z-index: 2;
-}
-
-/* === GRID (no cambiar) === */
 .grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
-  max-width: 900px;
-  margin: 2rem auto;
-  padding: 2rem 1rem;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1.5rem;
+  max-width:900px;
+  margin:2rem auto;
+  padding:2rem 1rem;
 }
 
-/* ==== MOBILE ==== */
-@media (max-width: 768px) {
-  .section-bottom {
-    background-image: none !important; /* quita la imagen en mobile */
-    background-color: #fbe0f0; /* color rosado suave para reemplazarla */
-  }
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+@media(max-width:768px){
+  .section-bottom{background-image:none!important;background-color:#fbe0f0;}
+  .grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:480px){
+  .grid{grid-template-columns:1fr;}
 }
 
-@media (max-width: 480px) {
-  .grid { grid-template-columns: 1fr; }
-}
-
-/* === DÍAS (cajas) === */
+/* ——————————— DÍAS ——————————— */
 .day {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  display:flex; justify-content:center; align-items:center;
+  background:rgba(255,255,255,0.78);
+  border:3px solid var(--pink-dark);
+  border-radius:18px;
+  padding:2rem 0;
+  font-size:1.6rem; font-weight:700;
+  cursor:pointer;
+  box-shadow:0 0 20px var(--pink-glow),0 6px 16px rgba(0,0,0,0.12);
+  transition:.25s;
+}
+.day:hover { transform:translateY(-6px); }
 
-  background: rgba(255,255,255,0.78);
-  border: 3px solid var(--pink-dark);
-  border-radius: 18px;
-  padding: 2rem 0;
-  font-size: 1.6rem;
-  font-weight: 700;
-  cursor: pointer;
-
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-
-  box-shadow:
-    0 0 20px var(--pink-glow),
-    0 6px 16px rgba(0,0,0,0.12);
-
-  transition: .25s;
+/* FUTURO */
+.day.future {
+  opacity:.45;
+  cursor:not-allowed;
 }
 
-.day:hover {
-  transform: translateY(-6px);
-  box-shadow:
-    0 0 30px var(--pink-glow),
-    0 12px 28px rgba(0,0,0,0.18);
+/* PASADO */
+.day.past {
+  background:#e8e8e8;
+  color:#777;
+  border-color:#aaa;
+}
+.day.past::after {
+  content:"✓";
+  margin-left:8px;
+  font-size:1.3rem;
+  color:green;
 }
 
-/* === BOTÓN === */
-.btn-points {
-  display: block;
-  margin: 1.5rem auto;  /* centrado */
-
-  background: var(--pink-dark);
-  color: white;
-  padding: 18px 26px;
-  border-radius: 14px;
-  font-size: 1.1rem;
-  font-weight: 700;
-  border: none;
-  cursor: pointer;
-  transition: .25s;
-  text-align: center;
-}
-.btn-points:hover {
-  background: var(--gold);
-  color: #111;
-}
-
-/* === FOOTER === */
-footer {
-  text-align: center;
-  padding: 40px 10px;
-  color: #555;
-  font-size: 0.9rem;
-}
-
-/* === MODALS === */
-.modal-backdrop {
+/* ——————————— CONFETTI ——————————— */
+.confetti {
   position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.4);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
+  width: 8px;
+  height: 8px;
+  background: #ffacc9;
+  border-radius: 50%;
+  animation: fall 1s linear forwards;
+  pointer-events:none;
+  z-index:9999;
+}
+@keyframes fall {
+  to { transform: translateY(120vh) rotate(360deg); opacity:0; }
+}
+
+/* ——————————— BOTÓN ——————————— */
+.btn-points {
+  display:block; margin:1.5rem auto;
+  background:var(--pink-dark); color:white;
+  padding:18px 26px; border-radius:14px;
+  font-weight:700; cursor:pointer;
+}
+.btn-points:hover { background:var(--gold); color:#111; }
+
+/* ——————————— FOOTER ——————————— */
+footer { text-align:center; padding:40px 10px; color:#555; }
+
+/* ——————————— MODALS ——————————— */
+.modal-backdrop {
+  position:fixed; inset:0;
+  background:rgba(0,0,0,0.4);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:10;
 }
 .modal {
-  background: #fff;
-  border: 3px solid var(--pink-dark);
-  border-radius: 16px;
-  padding: 20px;
-  max-width: 600px;
-  text-align: left;
+  background:white;
+  border:3px solid var(--pink-dark);
+  border-radius:16px; padding:20px;
+  max-width:600px;
 }
 .modal .close {
-  float: right;
-  background: var(--pink-dark);
-  color: white;
-  padding: 8px 16px;
-  border:none;
-  border-radius: 8px;
+  float:right; padding:8px 16px;
+  background:var(--pink-dark);
+  border-radius:8px; color:white;
   cursor:pointer;
 }
-.modal .close:hover {
-  background: var(--gold);
-  color: #111;
-}
+.modal .close:hover { background:var(--gold); color:#111; }
 </style>
 </head>
 
 <body>
 
-<!-- SNOW & GLITTER -->
+<!-- FONDOS -->
 <canvas id="glitterCanvas"></canvas>
 <canvas id="snowCanvas"></canvas>
 
@@ -284,18 +217,13 @@ footer {
   <p class="counter" id="counter"></p>
 </header>
 
-<!-- SECCIÓN INFERIOR COMPLETA -->
 <div class="section-bottom">
-
   <main>
     <div class="grid" id="calendar"></div>
     <button class="btn-points" id="rulesBtn">🎯 Cómo ganar puntos</button>
   </main>
 
-  <footer>
-    © Ardene | Hecho con 💖 para nuestros equipos de tienda
-  </footer>
-
+  <footer>© Ardene | Hecho con 💖 para nuestros equipos de tienda</footer>
 </div>
 
 <!-- Modal día -->
@@ -314,129 +242,157 @@ footer {
     <button class="close" id="closeRules">Cerrar</button>
     <h2>🎯 Cómo ganar puntos</h2>
     <ul>
-      <li>+Gana puntos por participar en el reto diario.</li>
-      <li>+Gana puntos por ser la ganadora del día.</li>
-      <li>+5 puntos si completas los 12 días 💪</li>
+      <li>Participa en el reto diario.</li>
+      <li>Gana el reto del día.</li>
+      <li>Completa los 12 días para sumar +5 puntos adicionales.</li>
     </ul>
   </div>
 </div>
 
 <script>
-/* === Contador === */
+/* ——————————— CONTADOR NAVIDAD ——————————— */
 function updateCountdown(){
   const today=new Date();
   const xmas=new Date(today.getFullYear(),11,25);
   const diff=Math.ceil((xmas-today)/(1000*60*60*24));
-  document.getElementById('counter').textContent=
-    `Faltan ${diff} días para Navidad 🎄`;
+  document.getElementById('counter').textContent=`Faltan ${diff} días para Navidad 🎄`;
 }
 updateCountdown();
 
-/* === Retos === */
+/* ——————————— DATOS ——————————— */
 const retos=[
 ["Lingerie Love 💕","30% OFF Lencería","Gana la asociada que venda más unidades de Lencería hoy (10 puntos!)."],
-["Accessories Galore ✨","3x2 en Accesorios y Joyería","Gana la asociada que venda más unidades de Accesorios y Joyería (10 puntos!)."],
-["Bag Lovers 🎒","20% OFF Bags & Wallets","La primera en lograr 5 transacciones con Bags/Wallets se gana +2 puntos adicionales"],
+["Accessories Galore ✨","3x2 en Accesorios","Gana la asociada que venda más accesorios hoy."],
+["Bag Lovers 🎒","20% OFF Bags","La primera en lograr 5 transacciones con Bags gana +2 puntos."],
 ["Step Into Style 👟","BOGO 50% Footwear","1 punto por cada ticket con calzado promo."],
-["Ticket Hunting","Descuentos sorpresas escondidos en la tienda","Supera tu UPT personal vs. semana pasada y gana +2 puntos adicionales."],
-["Surprise Bag Day 🎉","Bag gratis desde $40","Logra 3 tickets ≥ $40 y gana +5 puntos adicionales!."],
-["Basics & Move 🩳","20% OFF Basics & Move","Vende 5 unidades de Basics/Move y gana + 3 puntos!."],
-["Denim Day 👖","Jeans a $29.99","La asociada que venda más jeans hoy gana +2 puntos extra!."],
-["Mix & Match 📸","15% OFF redes","Cliente que muestre que nos sigue gana 15%. Gana 5 nuevos followers para nuestra cuenta gana +2 puntos extra!"],
-["Dress to Impress 👗","30% OFF Vestidos","logra 3 tickets que incluyan vestidos y gana +2 puntos adicionales!."],
-["PJ Party 🌙","30% OFF Pijamas","Vende 3 sets de pijamas y gana 10 puntos!."],
-["Big Finale 🎄","25% OFF Toda la tienda","Supera tu UPT semanal y gana +3 puntos.+10 Puntos adicionales para la que venda más unidades"]
+["Ticket Hunting","Sorpresas escondidas","Supera tu UPT vs. semana pasada y gana +2."],
+["Surprise Bag Day 🎉","Bag gratis desde $40","Logra 3 tickets ≥ $40 y gana +5."],
+["Basics & Move 🩳","20% OFF Basics","Vende 5 unidades y gana +3."],
+["Denim Day 👖","Jeans a $29.99","Quien venda más jeans gana +2."],
+["Mix & Match 📸","15% OFF redes","Logra 5 followers nuevos y gana +2."],
+["Dress to Impress 👗","30% OFF Vestidos","Logra 3 tickets con vestidos y gana +2."],
+["PJ Party 🌙","30% OFF Pijamas","Vende 3 sets y gana +10."],
+["Big Finale 🎄","25% OFF tienda","UPT +3 puntos y +10 por más unidades."]
 ];
 
-/* === Crear las cajas === */
-const grid=document.getElementById('calendar');
+/* ——————————— CREAR DÍAS ——————————— */
+const grid=document.getElementById("calendar");
+const today=new Date();
+const isDecember = today.getMonth()===11;
+const currentDay = isDecember ? today.getDate() : 0;
+
+/* Para detectar cuándo se desbloquea un día y disparar confetti */
+let lastDay = currentDay;
+
 for(let i=1;i<=12;i++){
-  const d=document.createElement('div');
-  d.className='day';
+  const d=document.createElement("div");
+  d.classList.add("day");
   d.textContent=i;
-  d.onclick=()=>openModal(i);
+
+  if(i < currentDay) d.classList.add("past");
+  if(i > currentDay) d.classList.add("future");
+
+  d.onclick=()=>handleDayClick(i,d);
   grid.appendChild(d);
 }
 
-/* === Modal día === */
-const modalBg=document.getElementById('modalBg');
+/* ——————————— CONFETTI ——————————— */
+function launchConfetti(){
+  for(let i=0;i<40;i++){
+    const c=document.createElement("div");
+    c.className="confetti";
+    c.style.left=Math.random()*window.innerWidth+"px";
+    c.style.background=["#ff8ca4","#ffd700","#fff2e2","#ffffff"][Math.floor(Math.random()*4)];
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),1000);
+  }
+}
+
+/* ——————————— PROTECCIÓN DE DÍAS ——————————— */
+function handleDayClick(day, element){
+  if(element.classList.contains("future")){
+    alert("🎁 Este reto aún no está disponible.");
+    return;
+  }
+  openModal(day);
+}
+
+/* ——————————— MODAL ——————————— */
+const modalBg=document.getElementById("modalBg");
 function openModal(i){
   const r=retos[i-1];
-  document.getElementById('mTitle').textContent=`Día ${i} — ${r[0]}`;
-  document.getElementById('mPromo').textContent=r[1];
-  document.getElementById('mDesc').textContent=r[2];
-  modalBg.style.display='flex';
+  document.getElementById("mTitle").textContent=`Día ${i} — ${r[0]}`;
+  document.getElementById("mPromo").textContent=r[1];
+  document.getElementById("mDesc").textContent=r[2];
+  modalBg.style.display="flex";
 }
-document.getElementById('closeModal').onclick=()=>modalBg.style.display='none';
-modalBg.onclick=e=>{if(e.target===modalBg) modalBg.style.display='none';};
+document.getElementById("closeModal").onclick=()=>modalBg.style.display="none";
+modalBg.onclick=e=>{if(e.target===modalBg) modalBg.style.display="none";};
 
-/* === Modal reglas === */
-const rulesBg=document.getElementById('rulesBg');
-document.getElementById('rulesBtn').onclick=()=>rulesBg.style.display='flex';
-document.getElementById('closeRules').onclick=()=>rulesBg.style.display='none';
-rulesBg.onclick=e=>{if(e.target===rulesBg) rulesBg.style.display='none';};
+/* ——————————— MODAL REGLAS ——————————— */
+const rulesBg=document.getElementById("rulesBg");
+document.getElementById("rulesBtn").onclick=()=>rulesBg.style.display="flex";
+document.getElementById("closeRules").onclick=()=>rulesBg.style.display="none";
+rulesBg.onclick=e=>{if(e.target===rulesBg) rulesBg.style.display="none";};
 
-/* === Glitter === */
-const glitterCanvas=document.getElementById('glitterCanvas');
-const g=glitterCanvas.getContext('2d');
+/* ——————————— EFECTO DESBLOQUEO AUTOMÁTICO (día actual) ——————————— */
+setInterval(()=>{
+  const now=new Date();
+  if(now.getMonth()===11 && now.getDate()!==lastDay){
+    const newDay=now.getDate();
+    if(newDay<=12){
+      const dayBox=document.querySelector(`.day:nth-child(${newDay})`);
+      if(dayBox){
+        dayBox.classList.remove("future");
+        launchConfetti();
+      }
+    }
+    lastDay=newDay;
+  }
+}, 60000); // revisa cada minuto
+
+/* ——————————— GLITTER ——————————— */
+const glitterCanvas=document.getElementById("glitterCanvas");
+const g=glitterCanvas.getContext("2d");
 function resizeGlitter(){glitterCanvas.width=innerWidth;glitterCanvas.height=innerHeight;}
-resizeGlitter();addEventListener('resize',resizeGlitter);
-
+resizeGlitter();addEventListener("resize",resizeGlitter);
 const glitter=Array.from({length:150},()=>({
-  x:Math.random()*innerWidth,
-  y:Math.random()*innerHeight,
-  r:Math.random()*2+0.5,
-  s:Math.random()*0.6+0.4,
+  x:Math.random()*innerWidth, y:Math.random()*innerHeight,
+  r:Math.random()*2+0.5, s:Math.random()*0.6+0.4,
   c:["#ffffff","#ffe5f0","#fff8e1"][Math.floor(Math.random()*3)]
 }));
-
 function drawGlitter(){
   g.clearRect(0,0,glitterCanvas.width,glitterCanvas.height);
   glitter.forEach(p=>{
-    g.beginPath();
-    g.arc(p.x,p.y,p.r,0,Math.PI*2);
-    g.fillStyle=p.c;
-    g.fill();
+    g.beginPath(); g.arc(p.x,p.y,p.r,0,Math.PI*2);
+    g.fillStyle=p.c; g.fill();
     p.y+=p.s;
-    if(p.y>innerHeight){
-      p.y=-5;
-      p.x=Math.random()*innerWidth;
-    }
+    if(p.y>innerHeight){p.y=-5; p.x=Math.random()*innerWidth;}
   });
   requestAnimationFrame(drawGlitter);
 }
 drawGlitter();
 
-/* === Snow === */
-const snowCanvas=document.getElementById('snowCanvas');
-const s=snowCanvas.getContext('2d');
+/* ——————————— SNOW ——————————— */
+const snowCanvas=document.getElementById("snowCanvas");
+const s=snowCanvas.getContext("2d");
 function resizeSnow(){snowCanvas.width=innerWidth;snowCanvas.height=innerHeight;}
-resizeSnow();addEventListener('resize',resizeSnow);
-
+resizeSnow();addEventListener("resize",resizeSnow);
 const snow=Array.from({length:70},()=>({
-  x:Math.random()*innerWidth,
-  y:Math.random()*innerHeight,
-  r:Math.random()*3+1,
-  s:Math.random()*0.8+0.4
+  x:Math.random()*innerWidth, y:Math.random()*innerHeight,
+  r:Math.random()*3+1, s:Math.random()*0.8+0.4
 }));
-
 function drawSnow(){
   s.clearRect(0,0,snowCanvas.width,snowCanvas.height);
-  s.fillStyle='rgba(255,255,255,0.8)';
+  s.fillStyle="rgba(255,255,255,0.8)";
   snow.forEach(f=>{
-    s.beginPath();
-    s.arc(f.x,f.y,f.r,0,Math.PI*2);
-    s.fill();
+    s.beginPath(); s.arc(f.x,f.y,f.r,0,Math.PI*2); s.fill();
     f.y+=f.s;
-    if(f.y>innerHeight){
-      f.y=-5;
-      f.x=Math.random()*innerWidth;
-    }
+    if(f.y>innerHeight){f.y=-5; f.x=Math.random()*innerWidth;}
   });
   requestAnimationFrame(drawSnow);
 }
 drawSnow();
 </script>
-
 </body>
 </html>
