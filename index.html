@@ -275,6 +275,9 @@ function openModal(i){
   document.getElementById("mPromo").textContent=r[1];
   document.getElementById("mDesc").textContent=r[2];
   modalBg.style.display="flex";
+
+  /* 🎉 Confetti al abrir el reto */
+  launchConfetti();
 }
 document.getElementById("closeModal").onclick=()=>modalBg.style.display="none";
 modalBg.onclick=e=>{if(e.target===modalBg) modalBg.style.display="none";};
